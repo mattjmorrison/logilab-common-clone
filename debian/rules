@@ -1,0 +1,95 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+#
+# adapted by Logilab for automatic generation by debianize
+# (part of the devtools project, http://www.logilab.org/projects/devtools)
+#
+# Copyright (c) 2003-2011 LOGILAB S.A. (Paris, FRANCE).
+# http://www.logilab.fr/ -- mailto:contact@logilab.fr
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Python default version number
+PYDEF := $(shell pyversions -d -v)
+
+-include /usr/share/python/python.mk
+ifeq (,$(py_sitename))
+	py_sitename = site-packages
+	py_libdir = /usr/lib/python$(subst python,,$(1))/site-packages
+	py_sitename_sh = $(py_sitename)
+	py_libdir_sh = $(py_libdir)
+endif
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+
+	# python module build
+	NO_SETUPTOOLS=1 python setup.py -q build --build-purelib build/lib
+
+	# run tests
+ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+	# we need this hack because we have to import "logilab.common.pytest"
+	# but since it's a namespace package, we need to "simulate" it
+	touch $(CURDIR)/build/lib/logilab/__init__.py
+	# use the default python version to select the script dir to run the tests
+	PYTHONPATH=$(CURDIR)/build/lib/ $(CURDIR)/build/scripts-$(PYDEF)/pytest -t test
+endif
+
+	# build doc
+	$(MAKE) -C doc
+
+	rm -f $(CURDIR)/build/lib/logilab/__init__.py
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+
+	# clean doc
+	$(MAKE) -C doc clean
+
+	NO_SETUPTOOLS=1 python setup.py clean
+
+	[ ! -d build ] || rm -rf build
+
+	find . -name "*.pyc" -delete
+
+	dh_clean build-stamp
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	NO_SETUPTOOLS=1 python setup.py -q install --no-compile \
+		--root=$(CURDIR)/debian/python-logilab-common/ \
+		${py_setup_install_args}
+	# remove test directory
+	rm -rf debian/python-logilab-common/usr/lib/python*/*-packages/logilab/common/test
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_install -i
+	dh_pysupport -i
+	dh_installchangelogs -i ChangeLog
+	dh_installexamples -i
+	dh_installdocs -i 	README doc/apidoc/
+	dh_installman -i
+	dh_link -i
+	dh_compress -i		-X.py -X.ini -X.xml -Xtest/ -Xapidoc/
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch:
+
+binary: binary-indep
+.PHONY: build clean binary binary-indep binary-arch

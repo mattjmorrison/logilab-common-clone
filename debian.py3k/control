@@ -1,0 +1,38 @@
+Source: logilab-common
+Section: python
+Priority: optional
+Maintainer: Logilab S.A. <contact@logilab.fr>
+Uploaders: David Douard <david.douard@logilab.fr>,
+	   Alexandre Fayolle <afayolle@debian.org>,
+	   Sandro Tosi <morph@debian.org>,
+	   Adrien Di Mascio <Adrien.DiMascio@logilab.fr>,
+	   Nicolas Chauvat <nicolas.chauvat@logilab.fr>,
+	   Julien Jehannet <julien.jehannet@logilab.fr>
+Build-Depends: debhelper (>= 7.0.50~), python3-all
+Build-Depends-Indep: python-epydoc, graphviz
+#, python-unittest2, python-egenix-mxdatetime
+Standards-Version: 3.9.1
+Homepage: http://www.logilab.org/project/logilab-common
+Vcs-Hg: http://hg.logilab.org/logilab/common
+Vcs-Browser: http://hg.logilab.org/logilab/common
+
+Package: python3-logilab-common
+Architecture: all
+Provides: ${python:Provides}
+Depends: ${python:Depends}, ${misc:Depends}
+Suggests: pyro
+#Recommends: python3-egenix-mxdatetime
+Description: useful miscellaneous modules used by Logilab projects
+ logilab-common is a collection of low-level Python packages and modules,
+ designed to ease:
+ .
+  * handling command line options and configuration files
+  * writing interactive command line tools
+  * manipulation files and character strings
+  * interfacing to OmniORB
+  * generating of SQL queries
+  * running unit tests
+  * manipulating tree structures
+  * accessing RDBMS (currently postgreSQL, MySQL and sqlite)
+  * generating text and HTML reports
+  * logging

@@ -1,0 +1,10 @@
+(^|/)\.svn($|/)
+(^|/)\.hg($|/)
+(^|/)\.hgtags($|/)
+^doc/html/
+^log$
+\.pyc$
+\.pyo$
+\~$
+\,cover$
+^\.coverage$

@@ -1,0 +1,39 @@
+Source: logilab-common
+Section: python
+Priority: optional
+Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Uploaders: David Douard <david.douard@logilab.fr>,
+	   Alexandre Fayolle <afayolle@debian.org>,
+	   Sandro Tosi <morph@debian.org>,
+	   Adrien Di Mascio <Adrien.DiMascio@logilab.fr>,
+	   Nicolas Chauvat <nicolas.chauvat@logilab.fr>,
+	   Julien Jehannet <julien.jehannet@debian.org>,
+Build-Depends: debhelper (>= 5.0.38), python (>= 2.4.6-2)
+Build-Depends-Indep: python-support, python-epydoc, graphviz, python-egenix-mxdatetime, python-unittest2
+XS-Python-Version: all
+Standards-Version: 3.9.1
+Homepage: http://www.logilab.org/project/logilab-common
+Vcs-Svn: svn://svn.debian.org/svn/python-modules/packages/logilab-common/trunk/
+Vcs-Browser: http://svn.debian.org/viewsvn/python-modules/packages/logilab-common/trunk/
+
+Package: python-logilab-common
+Architecture: all
+Provides: ${python:Provides}
+Depends: ${python:Depends}, ${misc:Depends}
+Suggests: pyro, python-unittest2, python-kerberos
+Recommends: python-egenix-mxdatetime
+Conflicts: python-constraint ( <= 0.3.0-4), python-logilab-astng ( <= 0.16.0-1), pylint ( << 0.11.0-1), devtools ( <= 0.9.0-1), logilab-doctools ( <= 0.1.6-4), python-logilab-aspects ( <= 0.1.4-2), python2.3-logilab-common, python2.4-logilab-common, cubicweb-server ( << 3.6.0-1)
+Description: useful miscellaneous modules used by Logilab projects
+ logilab-common is a collection of low-level Python packages and modules,
+ designed to ease:
+ .
+  * handling command line options and configuration files
+  * writing interactive command line tools
+  * manipulation files and character strings
+  * interfacing to OmniORB
+  * generating of SQL queries
+  * running unit tests
+  * manipulating tree structures
+  * accessing RDBMS (currently postgreSQL, MySQL and sqlite)
+  * generating text and HTML reports
+  * logging

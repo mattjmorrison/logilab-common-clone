@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+case "$1" in
+	install)
+		;;
+	upgrade)
+		pycentral pkgremove python-logilab-common 2>/dev/null || true
+		rm -vrf /usr/lib/$(pyversions -d)/site-packages/logilab/common
+		if [[ $(find /usr/lib/$(pyversions -d)/site-packages/logilab/ -maxdepth 1 -type d | wc -l) = '1' ]]; then
+			rm -vrf /usr/lib/$(pyversions -d)/site-packages/logilab/
+	   	fi
+		;;
+	abort-upgrade)
+		;;
+	*)
+		echo "preinst called with unknown argument '$1'" >&2
+		exit 1
+		;;
+esac
+
+#DEBHELPER#
+
+exit 0
